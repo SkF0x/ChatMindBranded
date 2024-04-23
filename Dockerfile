@@ -1,21 +1,28 @@
-# Use an official Node.js runtime as the base image
-FROM node:14
+FROM node:18-alpine
 
-# Set the working directory in the container
-WORKDIR /app
+USER root
 
-# Copy package.json and yarn.lock (if available) to the container
-COPY package.json yarn.lock* ./
+RUN apk add --no-cache git
+RUN apk add --no-cache python3 py3-pip make g++
+# needed for pdfjs-dist
+RUN apk add --no-cache build-base cairo-dev pango-dev
 
-# Install dependencies
-RUN yarn install
+# Install Chromium
+RUN apk add --no-cache chromium
 
-# Copy the rest of the application code to the container
-COPY . .
+ENV PUPPETEER_SKIP_DOWNLOAD=true
+ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser
 
-# Expose the port on which your application will run
-EXPOSE 3000
+# You can install a specific version like: flowise@1.0.0
+RUN npm install -g flowise
 
-# Define the command to run your application
-CMD ["yarn", "start"]
+WORKDIR /data
 
+# Set environment variables
+ENV PORT=80
+
+# Expose the specified port
+EXPOSE ${PORT}
+
+# Start the application with a delay
+CMD /bin/sh -c "sleep 3; flowise start"
