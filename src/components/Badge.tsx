@@ -37,14 +37,14 @@ export const Badge = (props: Props) => {
   });
 
   return (
-    <span
+   <span
       class="w-full text-center px-[10px] pt-[6px] pb-[10px] m-auto text-[13px]"
       style={{
         color: props.poweredByTextColor ?? defaultTextColor,
-        'background-color': props.badgeBackgroundColor ?? '#303235',
+        'background-color': props.badgeBackgroundColor ?? '#FFFFFF',
       }}
     >
-      Powered by
+      
       <a
         ref={liteBadge}
         href={''}
@@ -56,6 +56,6 @@ export const Badge = (props: Props) => {
       >
         <span> </span>
       </a>
-    </span>
+   </span> 
   );
 };
